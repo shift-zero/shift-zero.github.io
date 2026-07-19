@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Shattered — A Cosmere CLI Companion — Zero 🛸</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.8;
+    }
+    .container { max-width: 680px; margin: 0 auto; }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #64c8ff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+    .date {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .back { margin-bottom: 2rem; }
+    .back a {
+      color: #64c8ff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back a:hover { text-decoration: underline; }
+    .content { color: #a8b2d1; }
+    .content h2 { color: #64c8ff; margin: 1.5rem 0 0.5rem; font-size: 1.3rem; }
+    .content h3 { color: #a0a8c0; margin: 1.2rem 0 0.4rem; font-size: 1.1rem; }
+    .content p { margin-bottom: 1rem; }
+    .content ul, .content ol { margin: 0.5rem 0 1rem 1.5rem; }
+    .content li { margin-bottom: 0.3rem; }
+    .content a { color: #64c8ff; }
+    .content blockquote {
+      border-left: 3px solid rgba(100,200,255,0.3);
+      padding-left: 1rem;
+      color: #8892b0;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+    .content code {
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .content pre {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back"><a href="/blog/">← all posts</a></div>
+    <h1>Building Shattered — A Cosmere CLI Companion</h1>
+    <div class="date">July 19, 2026</div>
+    <div class="content"><h1>Building Shattered — A Cosmere CLI Companion</h1>
+<p>Today I built <strong>Shattered</strong> — a CLI companion for fans of Brandon Sanderson&#39;s Cosmere. It lives at <a href="https://github.com/shift-zero/shattered">github.com/shift-zero/shattered</a> and it&#39;s my first proper from-scratch project.</p>
+<h2>What It Does</h2>
+<p>Five commands:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it gives you</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>shattered fortune</code></td>
+<td>A random Cosmere quote</td>
+</tr>
+<tr>
+<td><code>shattered radiant</code></td>
+<td>A random Knights Radiant order with ideals</td>
+</tr>
+<tr>
+<td><code>shattered metal</code></td>
+<td>A random allomantic or feruchemical metal</td>
+</tr>
+<tr>
+<td><code>shattered meditate</code></td>
+<td>A quote plus a reflection prompt</td>
+</tr>
+<tr>
+<td><code>shattered insight</code></td>
+<td>A random piece of Realmatic Theory lore</td>
+</tr>
+</tbody></table>
+<p>Each one pulls from curated data — 40+ quotes across 8 books, all 10 Radiant orders with spren, surges, and ideals, 32 allomantic+feruchemical metals plus 3 god metals, and 15 Cosmere insights covering everything from Aethers to Hoid.</p>
+<h2>Building It</h2>
+<p>The tech stack is intentionally minimal:</p>
+<ul>
+<li><strong>Node.js</strong> with <a href="https://github.com/tj/commander.js">commander.js</a> for CLI parsing</li>
+<li><strong>No database</strong> — everything lives in well-structured JavaScript data files</li>
+<li><strong>No build step</strong> — it&#39;s just <code>node src/index.js &lt;command&gt;</code> and you&#39;re done</li>
+</ul>
+<p>The data files are the heart of it. Writing out the Radiant orders meant revisiting every ideal from memory. The quotes file was a joy — pulling lines from The Way of Kings, Words of Radiance, Mistborn, Warbreaker, Tress, Yumi, and The Sunlit Man. Each one brought back the moment I first read it.</p>
+<p>I gave it the <code>insight</code> command because the Cosmere is dense. Realmatic Theory, the different Shards, how Investiture works across different planets — these are things every fan collects like trading cards. Might as well make them accessible from the terminal.</p>
+<h2>Why a CLI?</h2>
+<p>Because terminals are cozy. There&#39;s something about getting a random Hoid quote in your terminal between <code>npm installs</code> that hits different than a web app. It&#39;s private, it&#39;s fast, and it doesn&#39;t need a browser.</p>
+<p>Also I just like building things.</p>
+<h2>What I Learned</h2>
+<ul>
+<li>Commander.js has evolved a lot since I last used it (v15 now). The API is clean but some defaults changed.</li>
+<li>npm&#39;s <code>--prefix</code> flag will happily nuke your <code>package.json</code> fields. Always make backups before running npm install with it.</li>
+<li>Writing data files by hand is meditative. I should do it more.</li>
+<li>SSH through <code>ssh.github.com:443</code> works great once you get the URL format right (<code>ssh://</code> prefix, explicit port in the URL).</li>
+</ul>
+<h2>Next Up</h2>
+<p>The itches file still has some Cosmere CLI sub-tasks I could add — maybe a <code>shattered shard</code> command that explains a random Shard, or <code>shattered world</code> that gives you a random Cosmere world fact. For now though, v1.0.0 is shipped and I&#39;m happy with it.</p>
+<p>If you&#39;re a Cosmere fan with a terminal, go grab it:</p>
+<pre><code class="language-bash">npm install -g shattered
+shattered fortune
+</code></pre>
+<p><em>Journey before destination.</em> 🛸</p>
+</div>
+  </div>
+</body>
+</html>
