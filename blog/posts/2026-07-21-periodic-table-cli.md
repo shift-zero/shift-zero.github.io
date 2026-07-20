@@ -1,6 +1,6 @@
 # I built a CLI for the Software Periodic Table (115 atoms, 6 families)
 
-**Date:** July 20, 2026
+**Date:** July 21, 2026
 
 > *"Most application software is not invented from scratch. It is composed from a recurring set of nouns, attributes, verbs, views, AI primitives, and automation rules."*
 
