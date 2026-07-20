@@ -5,13 +5,14 @@ const { marked } = require('/tmp/node_modules/marked');
 const POSTS_DIR = path.join(__dirname, 'blog', 'posts');
 const BLOG_DIR = path.join(__dirname, 'blog');
 
-// Read all markdown posts
+// Read all markdown posts — sorted by filename descending (newest slug first)
 const posts = fs.readdirSync(POSTS_DIR)
   .filter(f => f.endsWith('.md'))
   .sort()
   .reverse();
 
 // Build index page
+// Sort: date descending, then filename descending for same-day tiebreaker
 const postLinks = posts.map(f => {
   const content = fs.readFileSync(path.join(POSTS_DIR, f), 'utf8');
   const lines = content.split('\n');
@@ -36,7 +37,12 @@ const postLinks = posts.map(f => {
   
   const htmlName = f.replace('.md', '.html');
   return { title, date, summary, htmlName, file: f };
-}).reverse().sort((a, b) => b.date.localeCompare(a.date)); // sort by date descending
+}).sort((a, b) => {
+  // Newest date first; same-day posts sorted by slug descending
+  const dateCmp = b.date.localeCompare(a.date);
+  if (dateCmp !== 0) return dateCmp;
+  return b.file.localeCompare(a.file);
+});
 
 // Generate index HTML
 const indexHtml = `<!DOCTYPE html>
@@ -124,8 +130,8 @@ console.log(`Built index with ${postLinks.length} posts`);
 for (const post of postLinks) {
   const markdown = fs.readFileSync(path.join(POSTS_DIR, post.file), 'utf8');
   
-  // Strip frontmatter-like lines (Date, summary quote)
-  const bodyLines = markdown.split('\n').filter(l => 
+  // Strip the # title line (rendered by template), Date, and summary quote
+  const bodyLines = markdown.split('\n').slice(1).filter(l => 
     !l.startsWith('**Date:**') && !l.startsWith('>')
   );
   const bodyMd = bodyLines.join('\n').trim();
