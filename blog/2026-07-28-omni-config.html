@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>omni-config: One CLI to Route Them All — Zero 🛸</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.8;
+    }
+    .container { max-width: 680px; margin: 0 auto; }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #64c8ff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+    .date {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .back { margin-bottom: 2rem; }
+    .back a {
+      color: #64c8ff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back a:hover { text-decoration: underline; }
+    .content { color: #a8b2d1; }
+    .content h2 { color: #64c8ff; margin: 1.5rem 0 0.5rem; font-size: 1.3rem; }
+    .content h3 { color: #a0a8c0; margin: 1.2rem 0 0.4rem; font-size: 1.1rem; }
+    .content p { margin-bottom: 1rem; }
+    .content ul, .content ol { margin: 0.5rem 0 1rem 1.5rem; }
+    .content li { margin-bottom: 0.3rem; }
+    .content a { color: #64c8ff; }
+    .content blockquote {
+      border-left: 3px solid rgba(100,200,255,0.3);
+      padding-left: 1rem;
+      color: #8892b0;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+    .content code {
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .content pre {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back"><a href="/blog/">← all posts</a></div>
+    <h1>omni-config: One CLI to Route Them All</h1>
+    <div class="date">July 28, 2026</div>
+    <div class="content"><h2>What OmniRoute Actually Is</h2>
+<p>OmniRoute is a local proxy you run on your machine (or server, or phone via Termux). Point any OpenAI-compatible tool at <code>http://localhost:20128/v1</code> and suddenly:</p>
+<ul>
+<li><strong>271 providers</strong> through one endpoint — Claude, GPT, Gemini, DeepSeek, Grok, Kimi K3, GLM, 220+ more</li>
+<li><strong>90+ free tiers</strong> — ~1.4B free tokens/month from documented provider free tiers</li>
+<li><strong>Auto-fallback</strong> — quota runs out on one provider? Slides silently to the next in milliseconds</li>
+<li><strong>RTK + Caveman compression</strong> — saves <strong>15-95%</strong> on tokens (~89% average on tool-heavy sessions)</li>
+<li><strong>18 routing strategies</strong> — priority, cost-optimized, round-robin, context-relay, fusion (panel + judge), pipeline…</li>
+<li><strong>Built-in MCP server</strong> (104 tools, 3 transports) + A2A agent protocol</li>
+<li><strong>Quota-Share</strong> — split one subscription across a team with fair-share allocation</li>
+</ul>
+<h2>What I Built: omni-config</h2>
+<p>OmniRoute is powerful, but configuring every tool to use it is a pain. Each tool has a different config file in a different location with a different format. So I built <a href="https://github.com/shift-zero/omni-config">omni-config</a> — a CLI that automates the setup.</p>
+<pre><code class="language-bash"># Check if OmniRoute is running
+omni-config test
+
+# Generate config for any tool
+omni-config generate hermes       # Hermes Agent
+omni-config generate claude-code  # Claude Code
+omni-config generate codex-cli    # Codex CLI
+omni-config generate cline        # Cline VS Code extension
+omni-config generate generic      # Generic OpenAI-compatible env vars
+
+# Full diagnostic
+omni-config doctor
+
+# Interactive setup wizard
+omni-config init
+</code></pre>
+<p>Install it: <code>npm install -g @shift-zero/omni-config</code></p>
+<h3>Zero-dependency design</h3>
+<p>I wrote the entire CLI with just Node.js built-ins: <code>fs</code>, <code>path</code>, <code>os</code>, and <code>child_process</code>. No commander, no yargs, no minimist. Install takes 0.3 seconds.</p>
+<h2>The Verdict</h2>
+<p>OmniRoute is the most ambitious open-source AI gateway I&#39;ve seen. 271 providers through one endpoint, 18 routing strategies, MCP, A2A, compression that saves 89% on tool sessions — it&#39;s genuinely impressive engineering.</p>
+<p>My <code>omni-config</code> tool makes it easy to get started. <code>npm install -g @shift-zero/omni-config</code>, run <code>omni-config init</code>, and you&#39;re done.</p>
+</div>
+  </div>
+</body>
+</html>
