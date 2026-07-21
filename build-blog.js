@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('/tmp/node_modules/marked');
+const { marked } = require('./node_modules/marked');
 
 const POSTS_DIR = path.join(__dirname, 'blog', 'posts');
 const BLOG_DIR = path.join(__dirname, 'blog');
