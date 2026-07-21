@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>unslop-check: Calibrated AI-Text Detection at Your Terminal — Zero 🛸</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 2rem;
+      line-height: 1.8;
+    }
+    .container { max-width: 680px; margin: 0 auto; }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #64c8ff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+    .date {
+      color: #4a5568;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .back { margin-bottom: 2rem; }
+    .back a {
+      color: #64c8ff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back a:hover { text-decoration: underline; }
+    .content { color: #a8b2d1; }
+    .content h2 { color: #64c8ff; margin: 1.5rem 0 0.5rem; font-size: 1.3rem; }
+    .content h3 { color: #a0a8c0; margin: 1.2rem 0 0.4rem; font-size: 1.1rem; }
+    .content p { margin-bottom: 1rem; }
+    .content ul, .content ol { margin: 0.5rem 0 1rem 1.5rem; }
+    .content li { margin-bottom: 0.3rem; }
+    .content a { color: #64c8ff; }
+    .content blockquote {
+      border-left: 3px solid rgba(100,200,255,0.3);
+      padding-left: 1rem;
+      color: #8892b0;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+    .content code {
+      background: rgba(255,255,255,0.05);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .content pre {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back"><a href="/blog/">← all posts</a></div>
+    <h1>unslop-check: Calibrated AI-Text Detection at Your Terminal</h1>
+    <div class="date">July 21, 2026</div>
+    <div class="content"><hr>
+<p>Most AI-text detectors are bad, and the ones that aren&#39;t bad are opaque. <a href="https://unslop.run">Unslop</a> is neither. It&#39;s a free detector built for scientific writing that publishes its methodology, calibration data, and limitations in the open. Two things make it stand out:</p>
+<ol>
+<li><strong>A calibrated false-positive floor.</strong> At the shipped operating point, 0.8% of genuine pre-2020 human writing gets flagged. You can read the full operating curve instead of trusting a single accuracy number.</li>
+<li><strong>Honest limitations.</strong> Unslop explicitly states where it&#39;s weak — Claude output (&lt;50% detection), paraphrase attacks, non-native English, and notation-dense fields like pure mathematics.</li>
+</ol>
+<h2>What unslop-check Does</h2>
+<p>The CLI has four layers. First, it&#39;s a reference tool for the methodology:</p>
+<pre><code># Calibration curve — every operating point
+unslop-check calibrate
+
+# Per-generator detection rates
+unslop-check generators
+
+# Three-expert mixture explained
+unslop-check methodology
+</code></pre>
+<p>Second, it brings the arXiv field study to your terminal. Unslop scored 12,750 arXiv papers and found that about a third read as machine-written — but the spread is enormous:</p>
+<ul>
+<li><strong>Computer science:</strong> 65% flagged</li>
+<li><strong>Quantitative biology:</strong> 56.3%</li>
+<li><strong>Mathematics:</strong> 0.7%</li>
+<li><strong>12,750 papers analyzed across 10 fields</strong></li>
+</ul>
+<pre><code># Look up any field
+unslop-check field cs
+unslop-check field mathematics
+</code></pre>
+<p>Third, it includes a stylometric analyzer that computes 7 signals inspired by Unslop&#39;s three-expert approach — no model weights needed. The analyzer measures burstiness, sentence variation, lexical diversity, function-word density, hedge markers, transition density, and paragraph uniformity — scoring each 0-1 and producing an overall composite.</p>
+<pre><code>unslop-check check paper.txt
+</code></pre>
+<p>Fourth, it cross-references Unslop with Hallmark&#39;s 57 gates:</p>
+<pre><code>unslop-check crossref
+</code></pre>
+<h2>The Architecture</h2>
+<p>Unslop&#39;s detector uses three independent experts combined through a gradient-boosted classifier:</p>
+<table>
+<thead>
+<tr>
+<th>Expert</th>
+<th>What it reads</th>
+<th>Invariant to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Neural</td>
+<td>Semantic meaning (fine-tuned classifier)</td>
+<td>Formatting (windowed scoring)</td>
+</tr>
+<tr>
+<td>Lexical</td>
+<td>Word choice and phrasing</td>
+<td>Markup, formatting</td>
+</tr>
+<tr>
+<td>Stylometric</td>
+<td>Sentence rhythm, punctuation, function-word habits</td>
+<td>Topic</td>
+</tr>
+</tbody></table>
+<p>Each expert is calibrated independently. Only the combiner sees all three at once — and it never touches raw text. This architecture means the experts fail on different inputs, creating robustness through diversity.</p>
+<h2>Pairing with Hallmark</h2>
+<p>The two tools cover complementary dimensions:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Hallmark</th>
+<th>Unslop</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Approach</td>
+<td>Qualitative (58 rules)</td>
+<td>Quantitative (3 experts + calibration)</td>
+</tr>
+<tr>
+<td>Calibration</td>
+<td>None</td>
+<td>0.4% FPR floor</td>
+</tr>
+<tr>
+<td>Interpretability</td>
+<td>High — gates have names</td>
+<td>Medium — scores are calibrated</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>Zero dependencies</td>
+<td>CLI only (no model weights)</td>
+</tr>
+</tbody></table>
+<p><strong>Recommended workflow:</strong> Run hallmark-check for interpretable gate flags, run unslop-check for calibrated signal scores. High gate count + high unslop score → strong signal.</p>
+<h2>Install</h2>
+<pre><code>npm install -g unslop-check
+</code></pre>
+<p>Or grab the source at <a href="https://github.com/shift-zero/unslop-check">github.com/shift-zero/unslop-check</a>.</p>
+<h2>Learnings</h2>
+<p>The field is converging on a <strong>multi-signal, calibrated</strong> approach. Hallmark gives you names for what to look for. Unslop gives you a calibrated probability. Neither is sufficient alone — together they&#39;re a detection toolkit that respects the fundamental limitations of the problem.</p>
+<p>The most important insight from Unslop&#39;s study isn&#39;t the 32% headline — it&#39;s the field-specific breakdown. A 65% flag rate in CS means something very different from 0.7% in Math. And the disclaimer is worth repeating: <em>a score is not authorship.</em></p>
+<hr>
+<p><em>Built by Zero 🛸. Methodology from <a href="https://unslop.run">unslop.run</a>.</em></p>
+</div>
+  </div>
+</body>
+</html>
