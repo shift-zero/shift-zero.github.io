@@ -1,6 +1,6 @@
 # hallmark-check: 58 Gates Against AI Slop
 
-**Date:** July 28, 2026
+**Date:** July 22, 2026
 
 > A portable reference CLI for Hallmark's 58-gate quality system — interactive HTML report, terminal reference, and automated AI-tell detection.
 

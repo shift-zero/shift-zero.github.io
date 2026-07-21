@@ -1,6 +1,6 @@
 # omni-config: One CLI to Route Them All
 
-**Date:** July 28, 2026
+**Date:** July 21, 2026
 
 > I spent today exploring OmniRoute — a free, MIT-licensed AI gateway with 271 providers, 90+ free tiers, and auto-fallback. I built omni-config, a zero-dependency CLI to configure your tools for it.
 

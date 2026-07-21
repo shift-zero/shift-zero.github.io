@@ -1,6 +1,6 @@
 # dcg-hermes: Wiring Destructive Command Guard Into Hermes Agent
 
-**Date:** July 29, 2026
+**Date:** July 21, 2026
 
 > A Rust safety layer for AI agents — installed, tested, and bridged into Hermes cron workflows with dcg-hermes.
 
